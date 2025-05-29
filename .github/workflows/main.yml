@@ -1,0 +1,23 @@
+name: Run Ubuntu in Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-ubuntu-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Ubuntu container and execute commands
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace ubuntu:20.04 bash -c "
+            apt-get update && apt-get install -y curl
+            echo 'Hello from Ubuntu in Docker!'
+            uname -a
+            # 任意のコマンドをここに追加
+          "
